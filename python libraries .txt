@@ -1,0 +1,35 @@
+# Import libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load a sample dataset
+df = pd.read_csv('https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv')
+
+# Display the first few rows
+print(df.head())
+
+# Data Summary
+print(df.info())
+print(df.describe())
+
+# Handle missing values (if any)
+df = df.dropna()
+
+# Create new column (example: tip percentage)
+df['tip_pct'] = df['tip'] / df['total_bill'] * 100
+
+# Filter data (example: only dinner time)
+dinner_data = df[df['time'] == 'Dinner']
+
+# Group by and summarize
+avg_tip_by_day = df.groupby('day')['tip'].mean()
+print(avg_tip_by_day)
+
+# Visualization: Tip percentage by day
+plt.figure(figsize=(8, 5))
+sns.barplot(data=df, x='day', y='tip_pct')
+plt.title('Average Tip Percentage by Day')
+plt.ylabel('Tip %')
+plt.show()
